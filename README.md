@@ -50,7 +50,7 @@ Run your own MCP server using this TypeScript implementation.
 ### Run via npx (no install)
 
 ```bash
-BILLIONVERIFY_API_KEY=your_api_key npx @billionverify/mcp-server
+BILLIONVERIFY_API_KEY=your_api_key npx billionverify-mcp
 ```
 
 ### Claude Desktop config (self-hosted)
@@ -60,7 +60,7 @@ BILLIONVERIFY_API_KEY=your_api_key npx @billionverify/mcp-server
   "mcpServers": {
     "billionverify": {
       "command": "npx",
-      "args": ["-y", "@billionverify/mcp-server"],
+      "args": ["-y", "billionverify-mcp"],
       "env": {
         "BILLIONVERIFY_API_KEY": "your_api_key_here"
       }
@@ -72,15 +72,15 @@ BILLIONVERIFY_API_KEY=your_api_key npx @billionverify/mcp-server
 ### Install globally
 
 ```bash
-npm install -g @billionverify/mcp-server
+npm install -g billionverify-mcp
 billionverify-mcp
 ```
 
 ### Install from source
 
 ```bash
-git clone https://github.com/BillionVerify/typescript-mcp-server.git
-cd typescript-mcp-server
+git clone https://github.com/BillionVerify/billionverify-mcp.git
+cd billionverify-mcp
 npm install
 npm run build
 npm start

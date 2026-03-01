@@ -1,5 +1,5 @@
 {
-  "name": "@billionverify/mcp-server",
+  "name": "billionverify-mcp",
   "version": "1.0.0",
   "description": "BillionVerify MCP Server - AI-native email verification",
   "type": "module",
@@ -17,7 +17,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/BillionVerify/mcp-server.git"
+    "url": "https://github.com/BillionVerify/billionverify-mcp.git"
   },
   "homepage": "https://billionverify.com",
   "dependencies": {
