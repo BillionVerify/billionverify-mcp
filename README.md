@@ -2,8 +2,6 @@
 
 Connect any AI assistant to [BillionVerify](https://billionverify.com) email verification via the [Model Context Protocol](https://modelcontextprotocol.io). Built with the [official MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk).
 
-Also available in [Go](https://github.com/BillionVerify/go-mcp-server) and [Python](https://github.com/BillionVerify/python-mcp-server).
-
 ---
 
 ## Option 1 — Online Server (No Installation)
