@@ -8,7 +8,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-const VERSION = "1.0.0";
+const VERSION = "1.1.0";
 const DEFAULT_BASE_URL = "https://api.billionverify.com";
 
 // ─── API Client ───────────────────────────────────────────────────────────────
@@ -51,6 +51,14 @@ class BillionVerifyClient {
 
   async getAccountBalance() {
     return this.request("GET", "/v1/credits");
+  }
+
+  async getVerificationHistory(page: number, limit: number) {
+    return this.request("GET", `/v1/usage?page=${page}&limit=${limit}`);
+  }
+
+  async getVerificationStats(period: string) {
+    return this.request("GET", `/v1/stats?period=${period}`);
   }
 
   async getTaskStatus(taskId: string) {
@@ -161,6 +169,37 @@ server.tool(
   async ({ api_key }) => {
     const client = getClient(api_key);
     const result = await client.getAccountBalance();
+    return toText(result);
+  }
+);
+
+// get_verification_history
+server.tool(
+  "get_verification_history",
+  "List verification history for your BillionVerify account",
+  {
+    page: z.number().int().min(1).default(1).describe("The page number to retrieve"),
+    limit: z.number().int().min(1).max(100).default(20).describe("The number of history records to return per page"),
+    api_key: z.string().optional().describe("BillionVerify API key (optional if BILLIONVERIFY_API_KEY env is set)"),
+  },
+  async ({ page, limit, api_key }) => {
+    const client = getClient(api_key);
+    const result = await client.getVerificationHistory(page, limit);
+    return toText(result);
+  }
+);
+
+// get_verification_stats
+server.tool(
+  "get_verification_stats",
+  "Get aggregated verification statistics for your BillionVerify account",
+  {
+    period: z.enum(["7d", "30d", "90d", "1y"]).default("30d").describe("The reporting period to query"),
+    api_key: z.string().optional().describe("BillionVerify API key (optional if BILLIONVERIFY_API_KEY env is set)"),
+  },
+  async ({ period, api_key }) => {
+    const client = getClient(api_key);
+    const result = await client.getVerificationStats(period);
     return toText(result);
   }
 );

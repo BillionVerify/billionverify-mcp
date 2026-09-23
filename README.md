@@ -4,36 +4,58 @@ Connect any AI assistant to [BillionVerify](https://billionverify.com) email ver
 
 ---
 
-## Option 1 — Online Server (No Installation)
+## Option 1 — Hosted Server (No Installation)
 
-Use BillionVerify's hosted MCP server at `https://mcp.billionverify.com/mcp`. No setup required — just add your API key.
+Use BillionVerify's hosted MCP server. There is nothing to install and no API key to paste: you sign in with your BillionVerify account over OAuth, and the connection is tied to that account.
 
-Get your API key from the [BillionVerify Dashboard](https://billionverify.com/auth/sign-in?next=/home/api-keys).
+| | |
+|---|---|
+| Server URL | `https://mcp.billionverify.com/mcp` |
+| Transport | Streamable HTTP |
+| Authentication | OAuth 2.1 (sign in with your BillionVerify account) |
 
-### Claude Desktop
+> The hosted server does **not** accept API keys (`?api_key=`, `BV-API-KEY` or `Authorization: Bearer <api key>` are all rejected). If you want to use an API key, use Option 2.
 
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+Detailed step-by-step guide: [docs/connect-chatgpt-claude.md](docs/connect-chatgpt-claude.md).
+
+### ChatGPT (web)
+
+1. Settings → **Apps & Connectors** → **Advanced settings** → turn on **Developer mode**.
+2. Settings → **Apps & Connectors** → **Create**.
+3. Name `BillionVerify`, MCP server URL `https://mcp.billionverify.com/mcp`, authentication **OAuth** → create.
+4. Sign in to BillionVerify in the window that opens and approve access.
+5. In a new chat, click **+** → **Developer mode** → enable **BillionVerify**.
+
+### Claude (claude.ai / Claude Desktop)
+
+1. **Customize → Connectors** → **+** → **Add custom connector**.
+2. Name `BillionVerify`, URL `https://mcp.billionverify.com/mcp` → **Add** (leave Advanced settings empty).
+3. Click **Connect**, sign in to BillionVerify and approve access.
+4. In a chat, click **+** → **Connectors** and make sure **BillionVerify** is on.
+
+Team / Enterprise: an Owner adds the connector under **Organization settings → Connectors**, then each member clicks **Connect**.
+
+### Claude Code
+
+```bash
+claude mcp add --transport http billionverify https://mcp.billionverify.com/mcp
+```
+
+Then run `/mcp` inside Claude Code, select `billionverify` and finish the sign-in in your browser.
+
+### Cursor
+
+Add to `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` (project), then click **Connect** next to the server in **Settings → MCP**:
 
 ```json
 {
   "mcpServers": {
     "billionverify": {
-      "command": "curl",
-      "args": ["--stdio", "https://mcp.billionverify.com/mcp?api_key=YOUR_API_KEY"]
+      "url": "https://mcp.billionverify.com/mcp"
     }
   }
 }
 ```
-
-### Claude Code
-
-```bash
-claude mcp add billionverify -- curl --stdio "https://mcp.billionverify.com/mcp?api_key=YOUR_API_KEY"
-```
-
-### Cursor
-
-Go to **Settings → MCP** and add the same JSON configuration as Claude Desktop above.
 
 ---
 
@@ -100,6 +122,8 @@ npm start
 | `verify_single_email` | Verify a single email address in real-time |
 | `verify_batch_emails` | Verify up to 50 emails in one request |
 | `get_account_balance` | Check your credit balance |
+| `get_verification_history` | List verification history (paginated) |
+| `get_verification_stats` | Aggregated statistics for 7d / 30d / 90d / 1y |
 | `get_task_status` | Poll the status of an async file verification job |
 | `get_download_url` | Get download URL for results with status filters |
 | `create_webhook` | Subscribe to file completion events |
