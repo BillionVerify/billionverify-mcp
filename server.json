@@ -1,0 +1,44 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.BillionVerify/billionverify-mcp",
+  "title": "BillionVerify",
+  "description": "Email verification for AI agents: verify single or bulk emails, check credits and history.",
+  "websiteUrl": "https://billionverify.com",
+  "repository": {
+    "url": "https://github.com/BillionVerify/billionverify-mcp",
+    "source": "github"
+  },
+  "version": "1.1.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "billionverify-mcp",
+      "version": "1.1.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "BILLIONVERIFY_API_KEY",
+          "description": "Your BillionVerify API key",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "BILLIONVERIFY_API_URL",
+          "description": "API base URL override",
+          "isRequired": false,
+          "format": "string",
+          "default": "https://api.billionverify.com"
+        }
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.billionverify.com/mcp"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-const VERSION = "1.1.0";
+const VERSION = "1.1.1";
 const DEFAULT_BASE_URL = "https://api.billionverify.com";
 
 // ─── API Client ───────────────────────────────────────────────────────────────
