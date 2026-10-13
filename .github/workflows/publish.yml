@@ -44,5 +44,16 @@ jobs:
           echo "${MCP_PUBLISHER_SHA256}  mcp-publisher.tar.gz" | sha256sum -c -
           tar xzf mcp-publisher.tar.gz mcp-publisher
 
+      # npm can take minutes to serve a fresh version; the registry rejects it until then.
+      - name: Wait for npm to serve this version
+        run: |
+          VERSION=$(jq -r .version package.json)
+          for i in $(seq 1 60); do
+            curl -sSf "https://registry.npmjs.org/billionverify-mcp/${VERSION}" >/dev/null && exit 0
+            sleep 10
+          done
+          echo "billionverify-mcp@${VERSION} not on npm after 10 minutes" >&2
+          exit 1
+
       - run: ./mcp-publisher login github-oidc
       - run: ./mcp-publisher publish
